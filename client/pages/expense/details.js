@@ -2,18 +2,24 @@ import React from 'react';
 import Axios from 'axios';
 import Link from 'next/link';
 
+
 class ExpenseDetails extends React.Component {
 
     state = {
         data: [],
         baseUrl: 'http://localhost:4000',
-        token: process.browser ? localStorage.getItem('token') : '',
-        expenseId: location.search.split('=')[1] || '',
+        token: process.browser ? localStorage.getItem('token') : '', 
         errors: []
     }
 
     componentDidMount () {
-        Axios.get(this.state.baseUrl + '/api/expenses/details/' + this.state.expenseId)
+        let expenseId = '';
+        if (typeof window !== "undefined") {
+            const queryParams = new URLSearchParams(window.location.search);
+            expenseId = queryParams.get('id');
+        }
+
+        Axios.get(this.state.baseUrl + '/api/expenses/details/' + expenseId)
         .then(res => {
           this.setState({
             data: res.data.expense,
@@ -31,7 +37,7 @@ class ExpenseDetails extends React.Component {
 
     render() {
         let { data } = this.state;
-
+        
         return (
             <div className="card">
                 <div className="card-header">
@@ -64,8 +70,8 @@ class ExpenseDetails extends React.Component {
                             
                             {
                                 
-                                data.expenses && data.expenses.map(d => (
-                                    <tr>
+                                data.expenses && data.expenses.map((d, i) => (
+                                    <tr key={i}>
                                         <th>{d.expItem}</th>
                                         <th>: {d.expCost}</th>
                                     </tr>
