@@ -1,0 +1,18 @@
+a {
+  text-decoration: none;
+  padding: 0 5px;
+  margin: 0 5px;
+  color: #fff;
+  background-color: #0daeee;
+  border-color: #0777a3;
+  border-radius: 2px
+}
+a:hover {
+  color:black;
+}
+
+li a {
+  display: block;
+  padding: 2px 5px;
+  margin: 0;
+}
